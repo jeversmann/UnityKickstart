@@ -31,14 +31,14 @@ public class PlaceCollectablesOnTerrain : MonoBehaviour
 		for (int i = 0; i < this.SpawnCount; ++i) {
 			Vector2 location = Random.insideUnitCircle * this.SpawnRadius / 2;
 			Vector3 worldPosition = new Vector3 (location.x, 0.0f, location.y);
-			float y = terrain.SampleHeight (worldPosition) + Random.Range (2, 10);
+			float y = terrain.SampleHeight (worldPosition) + Random.Range (5, 10);
 			worldPosition = worldPosition.SetY (y);
 			
 			GameObject collectableObject = (GameObject)GameObject.Instantiate
 				(this.CollectableToPlace, worldPosition, this.CollectableToPlace.transform.rotation);
 			collectableObject.isStatic = true;
 			collectableObject.transform.parent = this.ParentGameObject.transform;
-			collectableObject.GetComponent<Collectable> ().SetScale (Random.Range (.01f, .2f));
+			collectableObject.GetComponent<Collectable> ().SetScale (Random.Range (1f, 4f));
 		}
 	}
 }

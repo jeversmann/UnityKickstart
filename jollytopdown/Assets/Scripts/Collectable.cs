@@ -38,9 +38,11 @@ public class Collectable : MonoBehaviour
 
 	public void SetScale (float size)
 	{
-		Size = size;
+		Size = size / 10f;
 
-		this.transform.localScale = new Vector3 (4, .5f, 4) * size;
+		this.transform.localScale = new Vector3 (4, .5f, 4) * Size;
+
+		this.GetComponentInChildren<SwarmController> ().size = (int)size;
 	}
 
 	public float vol ()
