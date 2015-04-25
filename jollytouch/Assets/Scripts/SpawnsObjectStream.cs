@@ -30,7 +30,7 @@ public class SpawnsObjectStream : MonoBehaviour
 		if (this.TimeUntilNextObject < 0)
 		{
 			GameObject go = (GameObject)GameObject.Instantiate(this.StreamObject, this.transform.position, this.StreamObject.transform.localRotation);
-			go.rigidbody2D.velocity = this.InitialVelocity;
+			go.GetComponent<Rigidbody2D>().velocity = this.InitialVelocity;
 			go.transform.parent = this.transform;
 			this.TimeUntilNextObject = this.TimeBetweenObjects;
 		}

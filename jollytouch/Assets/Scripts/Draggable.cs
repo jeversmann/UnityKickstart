@@ -19,7 +19,7 @@ public class Draggable : MonoBehaviour
 	
 	void Update ()
 	{
-		this.rigidbody2D.velocity = Vector2.zero;
+		this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 	}
 
 	void OnTouchDown (Vector2 position)

@@ -227,7 +227,7 @@ namespace Jolly
 				}
 				if (!instance)
 				{
-					instance = go.AddComponent("JollyDebug") as JollyDebug;
+					instance = go.AddComponent<JollyDebug>() as JollyDebug;
 				}
 				
 				JollyDebug._instance = instance;

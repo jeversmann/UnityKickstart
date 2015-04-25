@@ -7,30 +7,28 @@ public class FollowPlayers : MonoBehaviour
 	public GameObject[] Players;
 	public float FollowLerpFactor = 5.0f;
 
-	private Vector3 CameraOffset;
+	private float CameraOffset = 10;
+	private Vector3 CameraHeading;
 	private Vector3 TargetCameraPosition;
-
-	void Start ()
-	{
-		this.CameraOffset = this.camera.transform.position;
-	}
 
 	void OnPreRender ()
 	{
 		float lerpFactor = Time.deltaTime * this.FollowLerpFactor;
-		this.camera.transform.position = Vector3.Lerp(this.camera.transform.position, this.TargetCameraPosition, lerpFactor);
+		this.GetComponent<Camera> ().transform.position = this.TargetCameraPosition;
+		this.GetComponent<Camera> ().transform.rotation = Quaternion.LookRotation (CameraHeading);
 	}
 
 	void Update ()
 	{
-		this.TargetCameraPosition = (HeroesAverageLocation().SetY (0) + this.CameraOffset);
+		this.CameraHeading = this.Players [1].GetComponent<Player> ().Heading;
+		this.TargetCameraPosition = this.Players [1].transform.position +
+			CameraHeading * -(CameraOffset * this.Players [1].GetComponent<Player> ().Size);
 	}
 	
-	private Vector3 HeroesAverageLocation()
+	private Vector3 HeroesAverageLocation ()
 	{
 		Vector3 average = Vector3.zero;
-		foreach (GameObject go in this.Players)
-		{
+		foreach (GameObject go in this.Players) {
 			average += go.transform.position;
 		}
 		average /= this.Players.Length;
