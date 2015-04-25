@@ -31,7 +31,7 @@ public class TouchInputDispatcher : MonoBehaviour
 
 	void CastTouchRay (Vector2 position, TouchPhase phase)
 	{
-		Vector2 worldPoint = this.camera.ScreenToWorldPoint(position);
+		Vector2 worldPoint = this.GetComponent<Camera>().ScreenToWorldPoint(position);
 		RaycastHit2D hit = Physics2D.Raycast(new Vector2(worldPoint.x, worldPoint.y), Vector2.zero, 0);
 		bool didHit = null != hit.collider;
 		JollyDebug.Watch (this, "CastTouchRayHit", didHit.ToString());
