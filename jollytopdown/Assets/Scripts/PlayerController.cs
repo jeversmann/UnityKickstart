@@ -44,6 +44,16 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
+	
+	public float HeightMovementAxis {
+		get {
+			if (controller) {
+				return Input.GetAxis ("HeightTrigger");
+			} else {
+				return Input.GetAxis ("Height");
+			}
+		}
+	}
 
 	public SwarmController swarmPrefab;
 	
@@ -69,6 +79,7 @@ public class PlayerController : MonoBehaviour
 	public float projectileDistance = 100;
 	float chargeTimer = 0;
 	int chargeRate = 1;
+	CharacterController character;
 	
 	SwarmController swarm;
 
@@ -81,6 +92,7 @@ public class PlayerController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		character = GetComponent<CharacterController> ();
 		swarm = GetComponent<SwarmController> ();
 		Camera camera = Camera.main;
 		float[] distances = new float[32];
@@ -107,11 +119,12 @@ public class PlayerController : MonoBehaviour
 	
 	void movePlayer ()
 	{
-		var moveInput = new Vector3 (HorizontalMovementAxis, VerticalMovementAxis, 0);
+		var moveInput = new Vector3 (HorizontalMovementAxis, VerticalMovementAxis, HeightMovementAxis);
 		var move = transform.forward * moveInput.y * speed;
 		move += transform.right * moveInput.x * strafeSpeed;
+		move += transform.up * moveInput.z * strafeSpeed;
 		move *= Time.deltaTime;
-		transform.position += move;
+		character.Move (move);
 		
 		var cameraInput = new Vector3 (HorizontalLookAxis, VerticalLookAxis, 0);
 		var rotY = VerticalLookAxis * turnSpeedVert * Time.deltaTime;

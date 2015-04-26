@@ -279,7 +279,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &228837462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
   ParentGameObject: {fileID: 228837458}
   targetCounter: {fileID: 727473666}
   Player: {fileID: 1708840848}
-  SpawnRadius: 400
+  SpawnRadius: 300
   SpawnCount: 75
 --- !u!1 &432495124
 GameObject:
@@ -357,7 +357,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 6
 --- !u!1 &591865892
 GameObject:
   m_ObjectHideFlags: 0
