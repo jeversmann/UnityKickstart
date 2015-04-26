@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class SwarmController : MonoBehaviour
@@ -36,18 +37,19 @@ public class SwarmController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (team != 0) {
+		var image = GetComponentInChildren<Image> ();
+		if (team != 0 && image) {
 			if (playerSwarm.launchCount <= 0) {
 				if (playerSwarm.size < size) {
-					GetComponent<Light> ().color = new Color (1, .3f, .3f);
+					image.color = new Color (1, .3f, .3f);
 				} else {
-					GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+					image.color = new Color (.3f, .7f, .3f);
 				}
 			} else {
 				if (playerSwarm.launchCount < size) {
-					GetComponent<Light> ().color = new Color (1, .3f, .3f);
+					image.color = new Color (1, .3f, .3f);
 				} else {
-					GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+					image.color = new Color (.3f, .7f, .3f);
 				}
 			}
 		}
