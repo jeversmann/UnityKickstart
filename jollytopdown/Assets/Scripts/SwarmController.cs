@@ -12,6 +12,7 @@ public class SwarmController : MonoBehaviour
 	public float turnSpeedVert = 1f;
 	public float beeWander = 5f;
 	public float minWander = 1f;
+	public SwarmController playerSwarm;
 	
 	List<BeeController> bees = new List<BeeController> ();
 
@@ -27,6 +28,7 @@ public class SwarmController : MonoBehaviour
 			bees.Add (bee);
 		}
 
+
 		control = GetComponent<PlayerController> ();
 		var text = GetComponentInChildren<TextMesh> ();
 		if (text) {
@@ -37,8 +39,15 @@ public class SwarmController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (player)
+		if (player) {
 			movePlayer ();
+		} else {
+			if (playerSwarm.size < size) {
+				GetComponent<Light> ().color = new Color (1, .3f, .3f);
+			} else {
+				GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+			}
+		}
 		
 		updateBees ();
 	}

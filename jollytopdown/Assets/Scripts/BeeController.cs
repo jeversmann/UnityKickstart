@@ -13,64 +13,63 @@ public class BeeController : MonoBehaviour
 	Material material;
 	
 	// Use this for initialization
-	void Start()
+	void Start ()
 	{
-		newTarget();
+		newTarget ();
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate()
+	void FixedUpdate ()
 	{
 		if (!chase)
-			moveRandom();
+			moveRandom ();
 		else
-			moveChase();
+			moveChase ();
 		
-		transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity);
+		transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity);
 	}
 	
-	void moveRandom()
+	void moveRandom ()
 	{
-		Vector3 delta = getTarget() - transform.position;
-		if (delta.sqrMagnitude <= minDistance * minDistance)
-		{
-			delta = newTarget() - transform.position;
+		Vector3 delta = getTarget () - transform.position;
+		if (delta.sqrMagnitude <= minDistance * minDistance) {
+			delta = newTarget () - transform.position;
 		}
 		
 		var dist = delta.magnitude;
-		GetComponent<Rigidbody>().AddForce(delta.normalized * Mathf.Sqrt(dist) * speed);
+		GetComponent<Rigidbody> ().AddForce (delta.normalized * Mathf.Sqrt (dist) * speed);
 	}
 	
-	void moveChase()
+	void moveChase ()
 	{
-		target = targetBee.transform.position + targetBee.GetComponent<Rigidbody>().velocity;
+		target = targetBee.transform.position + targetBee.GetComponent<Rigidbody> ().velocity;
 	}
 	
-	Vector3 newTarget()
+	Vector3 newTarget ()
 	{
 		target = Random.insideUnitSphere * wander;
 		return target;
 	}
 	
-	Vector3 getTarget()
+	Vector3 getTarget ()
 	{
-		return target + parent.transform.position + parent.GetComponent<Rigidbody>().velocity;
+		return target + parent.transform.position + parent.GetComponent<Rigidbody> ().velocity;
 	}
 	
-	public void changeSwarm(SwarmController newSwarm)
+	public void changeSwarm (SwarmController newSwarm)
 	{
 		parent = newSwarm.gameObject;
 		wander = newSwarm.beeWander;
 		if (newSwarm.player)
-			getMaterial().color = Color.green;
+			getMaterial ().color = new Color (0, .6f, 0);
 		else
-			getMaterial().color = Color.red;
+			getMaterial ().color = new Color (.6f, 0, 0);
 	}
 	
-	Material getMaterial()
+	Material getMaterial ()
 	{
 		if (!material)
-			material = gameObject.GetComponentInChildren<Renderer>().material;
+			material = gameObject.GetComponentInChildren<Renderer> ().material;
 		return material;
 	}
 }

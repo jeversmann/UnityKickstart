@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SwarmToPlace: {fileID: 100000, guid: 153ec7ae77548ad41a848a0a72fe1b31, type: 2}
   ParentGameObject: {fileID: 228837458}
+  Player: {fileID: 2012303269}
   SpawnRadius: 300
   SpawnCount: 60
 --- !u!1 &432495124
