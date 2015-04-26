@@ -12,6 +12,7 @@ GameObject:
   - 135: {fileID: 13500000}
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11439140}
   - 54: {fileID: 5400000}
   m_Layer: 0
   m_Name: PlayerSwarm
@@ -97,7 +98,7 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
 --- !u!23 &2300000
-Renderer:
+MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -105,15 +106,19 @@ Renderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
 --- !u!33 &3300000
@@ -163,15 +168,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f6bd091c621564f80cd74471a89005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
   beePrefab: {fileID: 11400000, guid: e8588e5b7d488c34ea607f319a3fa237, type: 2}
+  swarmPrefab: {fileID: 11426324, guid: eda04df330eefa3488a33527bce9ea5b, type: 2}
   size: 10
   speed: 60
-  strafeSpeed: 30
-  turnSpeed: 300
-  turnSpeedVert: 200
   beeWander: 4
   minWander: 2
+  team: 0
+--- !u!114 &11439140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd8a07ec8c30e141bdc0c27d002f832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swarmPrefab: {fileID: 11426324, guid: eda04df330eefa3488a33527bce9ea5b, type: 2}
+  speed: 40
+  strafeSpeed: 30
+  turnSpeed: 300
+  turnSpeedVert: 150
+  chargeDelay: .100000001
+  projectileSpeed: 1.5
+  projectileDistance: 100
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -202,4 +224,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
-  m_IsExploded: 1

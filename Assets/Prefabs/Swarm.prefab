@@ -89,16 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f6bd091c621564f80cd74471a89005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 0
   beePrefab: {fileID: 11400000, guid: e8588e5b7d488c34ea607f319a3fa237, type: 2}
   swarmPrefab: {fileID: 11426324, guid: eda04df330eefa3488a33527bce9ea5b, type: 2}
   size: 5
   speed: 40
-  strafeSpeed: 10
-  turnSpeed: 300
-  turnSpeedVert: 200
   beeWander: 4
   minWander: 2
+  team: 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
