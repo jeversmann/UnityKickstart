@@ -5,6 +5,7 @@ public class SwarmController : MonoBehaviour
 {
 	public bool player;
 	public BeeController beePrefab;
+	public SwarmController swarmPrefab;
 	public int size = 1;
 	public float speed = 1f;
 	public float strafeSpeed = 1f;
@@ -12,9 +13,14 @@ public class SwarmController : MonoBehaviour
 	public float turnSpeedVert = 1f;
 	public float beeWander = 5f;
 	public float minWander = 1f;
+	public int team = 0;
 	
 	List<BeeController> bees = new List<BeeController>();
+	int nextBee;
+	SwarmController chargingSwarm = null;
 
+	public float chargeDelay = .01f;
+	float chargeTimer = 0;
 	// Use this for initialization
 	void Start()
 	{
@@ -30,8 +36,18 @@ public class SwarmController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
+		chargeTimer += Time.deltaTime;
 		if (player)
+		{
 			movePlayer();
+			if (Input.GetAxis("Fire1") > .1f)
+			{
+				chargeBee();	
+			} else if (chargingSwarm)
+			{
+				fireSwarm();
+			}
+		}
 		
 		updateBees();
 	}
@@ -57,8 +73,8 @@ public class SwarmController : MonoBehaviour
 		foreach (var bee in bees)
 		{
 			float lerp = 0;
-			if (rigidbody.velocity != Vector3.zero)
-				lerp = speed / rigidbody.velocity.magnitude;
+			if (GetComponent<Rigidbody>().velocity != Vector3.zero)
+				lerp = speed / GetComponent<Rigidbody>().velocity.magnitude;
 			bee.wander = Mathf.Lerp(beeWander, minWander, lerp);
 		}
 	}
@@ -66,7 +82,16 @@ public class SwarmController : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
 		var otherSwarm = other.gameObject.GetComponent<SwarmController>();
-		if (otherSwarm)
+		if (!otherSwarm)
+			return;
+		if (otherSwarm.team == team)
+		{
+			if (otherSwarm.player)
+			{
+				sendBeesTo(otherSwarm);
+				kill();
+			}
+		} else
 		{
 			if (otherSwarm.size <= size)
 			{
@@ -82,19 +107,49 @@ public class SwarmController : MonoBehaviour
 	
 	void sendBeesTo(SwarmController other)
 	{
-		foreach (var bee in bees)
+		sendBeesTo(other, bees.Count);
+	}
+	
+	void sendBeesTo(SwarmController other, int n)
+	{
+		n = Mathf.Min(n, bees.Count);
+		for (int i = 0; i < n; i++)
 		{
-			other.bees.Add(bee);
-			bee.changeSwarm(other);
+			other.bees.Add(bees [i]);
+			bees [i].changeSwarm(other);
 		}
-		other.size += size;
-		bees = new List<BeeController>();
-		size = 0;
+		other.size += n;
+		bees.RemoveRange(0, n);
+		size -= n;
 	}
 	
 	void kill()
 	{
 		if (!player)
 			GameObject.Destroy(gameObject);
+	}
+	
+	void chargeBee()
+	{
+		if (chargeTimer >= chargeDelay)
+		{
+			chargeTimer = 0;
+			if (!chargingSwarm)
+			{
+				var o = GameObject.Instantiate(swarmPrefab.gameObject, transform.position + transform.forward * 10, Quaternion.identity) as GameObject;
+				chargingSwarm = o.GetComponent<SwarmController>();
+				chargingSwarm.transform.parent = transform;
+				chargingSwarm.beeWander = beeWander * .25f;
+				chargingSwarm.team = team;
+			}
+			sendBeesTo(chargingSwarm, 1);
+		}
+		
+	}
+	
+	void fireSwarm()
+	{
+		chargingSwarm.transform.parent = null;
+		chargingSwarm = null;
 	}
 }
