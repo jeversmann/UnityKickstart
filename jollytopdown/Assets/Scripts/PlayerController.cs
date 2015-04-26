@@ -53,7 +53,17 @@ public class PlayerController : MonoBehaviour
 	public float turnSpeedVert = 1f;
 	
 	SwarmController chargingSwarm = null;
-	
+
+	public float launchCount {
+		get {
+			if (chargingSwarm) {
+				return chargingSwarm.size;
+			} else {
+				return 0;
+			}
+		}
+	}
+
 	public float chargeDelay = .01f;
 	public float projectileSpeed = 1.5f;
 	public float projectileDistance = 100;
@@ -61,6 +71,12 @@ public class PlayerController : MonoBehaviour
 	int chargeRate = 1;
 	
 	SwarmController swarm;
+
+	public float size {
+		get {
+			return swarm.size;
+		}
+	}
 	
 	// Use this for initialization
 	void Start ()
@@ -102,14 +118,16 @@ public class PlayerController : MonoBehaviour
 		if (chargeTimer >= chargeDelay) {
 			chargeTimer = 0;
 			if (!chargingSwarm) {
-				swarmPrefab.playerSwarm = swarm;
+				swarmPrefab.playerSwarm = this;
 				var o = GameObject.Instantiate (swarmPrefab.gameObject, transform.position + transform.forward * 10, Quaternion.identity) as GameObject;
 				chargingSwarm = o.GetComponent<SwarmController> ();
 				chargingSwarm.transform.parent = transform;
 				chargingSwarm.beeWander = swarm.beeWander * .25f;
 				chargingSwarm.team = 0;
 			}
-			swarm.sendBeesTo (chargingSwarm, 1);
+			if (swarm.size > 5) {
+				swarm.sendBeesTo (chargingSwarm, 1);
+			}
 		}
 		
 	}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class SwarmController : MonoBehaviour
 {
 	public BeeController beePrefab;
-	public SwarmController playerSwarm;
+	public PlayerController playerSwarm;
 	public SwarmController swarmPrefab;
 	public int size = 1;
 	public float speed = 1f;
@@ -35,10 +35,18 @@ public class SwarmController : MonoBehaviour
 	void FixedUpdate ()
 	{	
 		if (team != 0) {
-			if (playerSwarm.size < size) {
-				GetComponent<Light> ().color = new Color (1, .3f, .3f);
+			if (playerSwarm.launchCount <= 0) {
+				if (playerSwarm.size < size) {
+					GetComponent<Light> ().color = new Color (1, .3f, .3f);
+				} else {
+					GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+				}
 			} else {
-				GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+				if (playerSwarm.launchCount < size) {
+					GetComponent<Light> ().color = new Color (1, .3f, .3f);
+				} else {
+					GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
+				}
 			}
 		}
 
@@ -93,6 +101,19 @@ public class SwarmController : MonoBehaviour
 		other.size += n;
 		bees.RemoveRange (0, n);
 		size -= n;
+	}
+
+	public int removeBees (int count)
+	{
+		int n = Mathf.Min (count, bees.Count);
+		for (int i = 0; i < n; i++) {
+			bees [0].kill ();
+			bees.RemoveAt (0);
+		}
+		size -= n;
+		if (bees.Count == 0 && !player)
+			GameObject.Destroy (gameObject);
+		return n;
 	}
 	
 	public void kill ()

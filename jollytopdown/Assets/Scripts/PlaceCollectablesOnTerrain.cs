@@ -6,7 +6,7 @@ public class PlaceCollectablesOnTerrain : MonoBehaviour
 {
 	public GameObject SwarmToPlace;
 	public GameObject ParentGameObject;
-	public SwarmController Player;
+	public PlayerController Player;
 	public float SpawnRadius;
 	public int SpawnCount;
 

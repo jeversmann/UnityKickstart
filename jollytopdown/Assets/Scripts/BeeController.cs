@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BeeController : MonoBehaviour
 {
@@ -64,6 +65,15 @@ public class BeeController : MonoBehaviour
 			getMaterial ().color = new Color (0, .6f, 0);
 		else
 			getMaterial ().color = new Color (.6f, 0, 0);
+	}
+
+	public void kill ()
+	{
+		var children = new List<GameObject> ();
+		foreach (Transform child in transform)
+			children.Add (child.gameObject);
+		children.ForEach (child => Destroy (child));
+		GameObject.Destroy (this);
 	}
 	
 	Material getMaterial ()
