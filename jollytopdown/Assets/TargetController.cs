@@ -30,6 +30,9 @@ public class TargetController : MonoBehaviour
 
 		if (health == 0) {
 			counter.targets -= 1;
+			Animator anim = GetComponentInChildren<Animator> ();
+			anim.SetTrigger ("Die");
+			anim.transform.parent = null;
 			GameObject.Destroy (gameObject);
 		}
 	}
