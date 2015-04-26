@@ -3,69 +3,46 @@ using System.Collections.Generic;
 
 public class SwarmController : MonoBehaviour
 {
-	public bool player;
 	public BeeController beePrefab;
+	public SwarmController playerSwarm;
+	public SwarmController swarmPrefab;
 	public int size = 1;
 	public float speed = 1f;
-	public float strafeSpeed = 1f;
-	public float turnSpeed = 1f;
-	public float turnSpeedVert = 1f;
+	
 	public float beeWander = 5f;
 	public float minWander = 1f;
-	public SwarmController playerSwarm;
+	
+	public int team = 0;
 	
 	List<BeeController> bees = new List<BeeController> ();
 
-	private PlayerController control;
-
+	PlayerController player;
+	
 	// Use this for initialization
 	void Start ()
 	{
+		player = GetComponent<PlayerController> ();
+		
 		for (int i = 0; i < size; i++) {
 			var other = GameObject.Instantiate (beePrefab.gameObject, transform.position + Random.insideUnitSphere, Quaternion.identity) as GameObject;
 			var bee = other.GetComponent<BeeController> ();
 			bee.changeSwarm (this);
 			bees.Add (bee);
 		}
-
-
-		control = GetComponent<PlayerController> ();
-		var text = GetComponentInChildren<TextMesh> ();
-		if (text) {
-			text.text = size.ToString ();
-		}
 	}
 
 	// Update is called once per frame
 	void FixedUpdate ()
-	{
-		if (player) {
-			movePlayer ();
-		} else {
+	{	
+		if (team != 0) {
 			if (playerSwarm.size < size) {
 				GetComponent<Light> ().color = new Color (1, .3f, .3f);
 			} else {
 				GetComponent<Light> ().color = new Color (.3f, .7f, .3f);
 			}
 		}
-		
+
 		updateBees ();
-	}
-	
-	void movePlayer ()
-	{
-		var moveInput = new Vector3 (control.HorizontalMovementAxis, control.VerticalMovementAxis, 0);
-		var move = transform.forward * moveInput.y * speed;
-		move += transform.right * moveInput.x * strafeSpeed;
-		move *= Time.deltaTime;
-		transform.position += move;
-		
-		var cameraInput = new Vector3 (control.HorizontalLookAxis, control.VerticalLookAxis, 0);
-		var rotY = control.VerticalLookAxis * turnSpeedVert * Time.deltaTime;
-		var rotX = control.HorizontalLookAxis * turnSpeed * Time.deltaTime;
-		
-		transform.Rotate (Vector3.up, rotX, Space.World);
-		transform.Rotate (Vector3.left, rotY, Space.Self);
 	}
 	
 	void updateBees ()
@@ -80,32 +57,49 @@ public class SwarmController : MonoBehaviour
 	
 	void OnTriggerEnter (Collider other)
 	{
+		var projectile = GetComponent<ProjectileController> ();
 		var otherSwarm = other.gameObject.GetComponent<SwarmController> ();
-		if (otherSwarm) {
-			if (otherSwarm.size <= size) {
-				otherSwarm.sendBeesTo (this);
-				otherSwarm.kill ();
-			} else {
+		if (!otherSwarm)
+			return;
+		if (otherSwarm.team == team) {
+			if (otherSwarm.player) {
 				sendBeesTo (otherSwarm);
+				if (projectile)
+					projectile.intersect (otherSwarm);
 				kill ();
+			}
+		} else {
+			if (otherSwarm.size < size || (team == 0 && otherSwarm.size == size)) {
+				otherSwarm.sendBeesTo (this);
+				if (projectile)
+					projectile.intersect (otherSwarm);
+				otherSwarm.kill ();
 			}
 		}
 	}
 	
-	void sendBeesTo (SwarmController other)
+	public void sendBeesTo (SwarmController other)
 	{
-		foreach (var bee in bees) {
-			other.bees.Add (bee);
-			bee.changeSwarm (other);
-		}
-		other.size += size;
-		bees = new List<BeeController> ();
-		size = 0;
+		sendBeesTo (other, bees.Count);
 	}
 	
-	void kill ()
+	public void sendBeesTo (SwarmController other, int n)
+	{
+		n = Mathf.Min (n, bees.Count);
+		for (int i = 0; i < n; i++) {
+			other.bees.Add (bees [i]);
+			bees [i].changeSwarm (other);
+		}
+		other.size += n;
+		bees.RemoveRange (0, n);
+		size -= n;
+	}
+	
+	public void kill ()
 	{
 		if (!player)
 			GameObject.Destroy (gameObject);
 	}
+	
+	
 }

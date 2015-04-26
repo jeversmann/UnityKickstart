@@ -442,6 +442,35 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: speed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: strafeSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: turnSpeed
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: turnSpeedVert
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: chargeDelay
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495348, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: swarmPrefab
+      value: 
+      objectReference: {fileID: 11426324, guid: 0aede4bae464f4d45b3e12f99f9533fb,
+        type: 2}
+    - target: {fileID: 400002, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 54c097e0aa50bc34eb4193a328e8e46c, type: 2}
   m_IsPrefabParent: 0
