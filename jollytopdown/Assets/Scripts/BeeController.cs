@@ -63,10 +63,6 @@ public class BeeController : MonoBehaviour
 	{
 		parent = newSwarm.gameObject;
 		wander = newSwarm.beeWander;
-		if (newSwarm.team == 0)
-			getMaterial ().color = new Color (0, .6f, 0);
-		else
-			getMaterial ().color = new Color (.6f, 0, 0);
 	}
 
 	public void kill ()
