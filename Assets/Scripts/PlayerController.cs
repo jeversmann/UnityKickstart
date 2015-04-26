@@ -64,11 +64,12 @@ public class PlayerController : MonoBehaviour
 			chargeTimer = 0;
 			if (!chargingSwarm)
 			{
-				var o = GameObject.Instantiate(swarmPrefab.gameObject, transform.position + transform.forward * 10, Quaternion.identity) as GameObject;
+				var o = GameObject.Instantiate(swarmPrefab.gameObject, transform.position + transform.forward * 5, Quaternion.identity) as GameObject;
 				chargingSwarm = o.GetComponent<SwarmController>();
 				chargingSwarm.transform.parent = transform;
 				chargingSwarm.beeWander = swarm.beeWander * .25f;
 				chargingSwarm.team = 0;
+				chargingSwarm.GetComponent<Collider>().enabled = false;
 			}
 			swarm.sendBeesTo(chargingSwarm, 1);
 		}
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
 		projectile.direction = transform.forward;
 		projectile.maxDistance = projectileDistance;
 		projectile.speed = speed * projectileSpeed;
+		chargingSwarm.GetComponent<Collider>().enabled = true;
 		chargingSwarm = null;
 	}
 }
