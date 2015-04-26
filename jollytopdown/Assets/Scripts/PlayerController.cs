@@ -81,7 +81,13 @@ public class PlayerController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		swarm = GetComponent<SwarmController> ();	
+		swarm = GetComponent<SwarmController> ();
+		Camera camera = Camera.main;
+		float[] distances = new float[32];
+		distances [9] = 250;
+
+		camera.layerCullDistances = distances;
+		camera.layerCullSpherical = true;
 	}
 	
 	// Update is called once per frame

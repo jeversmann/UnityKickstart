@@ -5,6 +5,7 @@ using System.Collections;
 public class TargetCounter : MonoBehaviour
 {
 
+	public float time;
 	public int targets;
 	private Text myText;
 	
@@ -17,6 +18,8 @@ public class TargetCounter : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		myText.text = string.Format ("{0} Targets Left", targets);
+		time -= Time.deltaTime;
+		myText.text = string.Format ("{0} Targets Left", targets)
+			+ "\n" + string.Format ("{0:0}:{1:00}", Mathf.Floor (time / 60), time % 60);
 	}
 }
