@@ -4,10 +4,9 @@ using Jolly;
 
 public class PlaceCollectablesOnTerrain : MonoBehaviour
 {
-	public GameObject CollectableToPlace;
+	public GameObject SwarmToPlace;
 	public GameObject ParentGameObject;
 	public float SpawnRadius;
-	public float HeightAboveGround;
 	public int SpawnCount;
 
 	void Start ()
@@ -16,29 +15,30 @@ public class PlaceCollectablesOnTerrain : MonoBehaviour
 
 		Cursor.visible = false;
 
-		for (int i = 0; i < this.SpawnCount/2; ++i) {
-			Vector2 location = Random.insideUnitCircle * this.SpawnRadius;
-			Vector3 worldPosition = new Vector3 (location.x, 0.0f, location.y);
-			float y = terrain.SampleHeight (worldPosition) + Random.Range (20, 40);
-			worldPosition = worldPosition.SetY (y);
+		int i = 0;
+		for (; i < this.SpawnCount/4; ++i) {
+			float count = Random.Range (3, 10);
+			SpawnBee ((int)count, terrain);
 
-			GameObject collectableObject = (GameObject)GameObject.Instantiate
-				(this.CollectableToPlace, worldPosition, this.CollectableToPlace.transform.rotation);
-			collectableObject.isStatic = true;
-			collectableObject.transform.parent = this.ParentGameObject.transform;
-			collectableObject.GetComponent<Collectable> ().SetScale (Random.Range (.2f, 1));
 		}
-		for (int i = 0; i < this.SpawnCount; ++i) {
-			Vector2 location = Random.insideUnitCircle * this.SpawnRadius / 2;
-			Vector3 worldPosition = new Vector3 (location.x, 0.0f, location.y);
-			float y = terrain.SampleHeight (worldPosition) + Random.Range (5, 10);
-			worldPosition = worldPosition.SetY (y);
-			
-			GameObject collectableObject = (GameObject)GameObject.Instantiate
-				(this.CollectableToPlace, worldPosition, this.CollectableToPlace.transform.rotation);
-			collectableObject.isStatic = true;
-			collectableObject.transform.parent = this.ParentGameObject.transform;
-			collectableObject.GetComponent<Collectable> ().SetScale (Random.Range (1f, 4f));
+
+		for (; i < this.SpawnCount; ++i) {
+			float count = Random.Range (1, 4);
+			SpawnBee ((int)count, terrain);
 		}
+	}
+
+	void SpawnBee (int count, Terrain terrain)
+	{
+		Vector2 location = Random.insideUnitCircle * this.SpawnRadius;
+		Vector3 worldPosition = new Vector3 (location.x, 0.0f, location.y);
+		float y = terrain.SampleHeight (worldPosition) + count * 5;
+		worldPosition = worldPosition.SetY (y);
+		
+		this.SwarmToPlace.GetComponent<SwarmController> ().size = (int)count;
+		GameObject swarmObject = (GameObject)GameObject.Instantiate
+			(this.SwarmToPlace, worldPosition, Quaternion.identity);
+		swarmObject.isStatic = true;
+		swarmObject.transform.parent = this.ParentGameObject.transform;
 	}
 }

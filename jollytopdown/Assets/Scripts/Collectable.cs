@@ -16,9 +16,6 @@ public class Collectable : MonoBehaviour
 	{
 		Vector3 eulerRotation = this.transform.localRotation.eulerAngles;
 		this.transform.rotation = Quaternion.Euler (eulerRotation.x, Time.time * this.RotationSpeed, eulerRotation.z);
-		if (4 * Mathf.Pow (FindObjectOfType<Player> ().Size, 3) > vol ()) {
-			this.gameObject.GetComponent<MeshRenderer> ().material.color = new Color (0, 255, 0);
-		}
 		
 	}
 
