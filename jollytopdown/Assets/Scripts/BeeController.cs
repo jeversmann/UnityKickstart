@@ -26,8 +26,10 @@ public class BeeController : MonoBehaviour
 			moveRandom ();
 		else
 			moveChase ();
-		
-		transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity);
+		var look = GetComponent<Rigidbody> ().velocity;
+		if (look == Vector3.zero)
+			look = transform.forward;
+		transform.rotation = Quaternion.LookRotation (look);
 	}
 	
 	void moveRandom ()

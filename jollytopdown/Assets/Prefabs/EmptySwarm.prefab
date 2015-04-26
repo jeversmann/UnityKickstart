@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2383848}
   - 114: {fileID: 11426324}
   - 54: {fileID: 5444284}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EmptySwarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,16 +89,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f6bd091c621564f80cd74471a89005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 0
   beePrefab: {fileID: 11400000, guid: e8588e5b7d488c34ea607f319a3fa237, type: 2}
+  playerSwarm: {fileID: 0}
   swarmPrefab: {fileID: 11426324}
   size: 0
   speed: 40
-  strafeSpeed: 10
-  turnSpeed: 300
-  turnSpeedVert: 200
   beeWander: 4
   minWander: 2
+  team: 0
 --- !u!135 &13538394
 SphereCollider:
   m_ObjectHideFlags: 1
