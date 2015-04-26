@@ -18,11 +18,13 @@ public class SwarmController : MonoBehaviour
 
 	PlayerController player;
 	
+	SphereCollider collider;
+	
 	// Use this for initialization
 	void Start ()
 	{
 		player = GetComponent<PlayerController> ();
-		
+		collider = GetComponent<SphereCollider> ();
 		for (int i = 0; i < size; i++) {
 			var other = GameObject.Instantiate (beePrefab.gameObject, transform.position + Random.insideUnitSphere, Quaternion.identity) as GameObject;
 			var bee = other.GetComponent<BeeController> ();
@@ -33,7 +35,7 @@ public class SwarmController : MonoBehaviour
 
 	// Update is called once per frame
 	void FixedUpdate ()
-	{	
+	{
 		if (team != 0) {
 			if (playerSwarm.launchCount <= 0) {
 				if (playerSwarm.size < size) {
@@ -49,16 +51,18 @@ public class SwarmController : MonoBehaviour
 				}
 			}
 		}
+		
+		collider.radius = beeWander;
 
 		updateBees ();
 	}
 	
 	void updateBees ()
 	{
+		float lerp = 0;
+		if (GetComponent<Rigidbody> ().velocity != Vector3.zero)
+			lerp = speed / GetComponent<Rigidbody> ().velocity.magnitude;
 		foreach (var bee in bees) {
-			float lerp = 0;
-			if (GetComponent<Rigidbody> ().velocity != Vector3.zero)
-				lerp = speed / GetComponent<Rigidbody> ().velocity.magnitude;
 			bee.wander = Mathf.Lerp (beeWander, minWander, lerp);
 		}
 	}
@@ -121,6 +125,4 @@ public class SwarmController : MonoBehaviour
 		if (!player)
 			GameObject.Destroy (gameObject);
 	}
-	
-	
 }

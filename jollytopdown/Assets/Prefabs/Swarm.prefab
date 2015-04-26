@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 108: {fileID: 10868080}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Swarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   beePrefab: {fileID: 11400000, guid: e8588e5b7d488c34ea607f319a3fa237, type: 2}
   playerSwarm: {fileID: 0}
   swarmPrefab: {fileID: 0}
-  size: 3
+  size: 4
   speed: 40
   beeWander: 4
   minWander: 2

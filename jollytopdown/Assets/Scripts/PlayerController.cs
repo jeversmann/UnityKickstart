@@ -95,11 +95,13 @@ public class PlayerController : MonoBehaviour
 	{
 		chargeTimer += Time.deltaTime;
 		
+		var point = getPointsAt ();
+		
 		movePlayer ();
 		if (Input.GetAxis ("Fire1") > .1f) {
 			chargeBee ();
 		} else if (chargingSwarm) {
-			fireSwarm ();
+			fireSwarm (point);
 		}
 	}
 	
@@ -130,15 +132,17 @@ public class PlayerController : MonoBehaviour
 				chargingSwarm.transform.parent = transform;
 				chargingSwarm.beeWander = swarm.beeWander * .25f;
 				chargingSwarm.team = 0;
+				chargeRate = Mathf.Max ((int)(size / 10), 1);
+				o.GetComponent<Collider> ().enabled = false;
 			}
 			if (swarm.size > 5) {
-				swarm.sendBeesTo (chargingSwarm, 1);
+				swarm.sendBeesTo (chargingSwarm, chargeRate);
 			}
 		}
 		
 	}
 	
-	void fireSwarm ()
+	void fireSwarm (GameObject pointsAt)
 	{
 		chargingSwarm.transform.parent = null;
 		var projectile = chargingSwarm.gameObject.AddComponent<ProjectileController> ();
@@ -146,6 +150,17 @@ public class PlayerController : MonoBehaviour
 		projectile.direction = transform.forward;
 		projectile.maxDistance = projectileDistance;
 		projectile.speed = speed * projectileSpeed;
+		projectile.target = pointsAt;
+		chargingSwarm.GetComponent<Collider> ().enabled = true;
 		chargingSwarm = null;
+	}
+	
+	GameObject getPointsAt ()
+	{
+		RaycastHit info;
+		if (Physics.Raycast (transform.position, transform.forward, out info, 1000, 1 << LayerMask.NameToLayer ("Targets"))) {
+			return info.collider.gameObject;
+		}
+		return null;
 	}
 }
