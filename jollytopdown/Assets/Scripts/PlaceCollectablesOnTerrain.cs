@@ -56,7 +56,7 @@ public class PlaceCollectablesOnTerrain : MonoBehaviour
 	{
 		Vector2 location = Random.insideUnitCircle * this.SpawnRadius;
 		Vector3 worldPosition = new Vector3 (location.x, 0.0f, location.y);
-		float y = terrain.SampleHeight (worldPosition) + 2;
+		float y = terrain.SampleHeight (worldPosition) + 8;
 		worldPosition = worldPosition.SetY (y);
 		
 		this.AnimalToPlace.GetComponent<TargetController> ().counter = targetCounter;

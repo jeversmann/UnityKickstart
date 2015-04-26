@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11495348}
+  - 82: {fileID: 8240280}
   m_Layer: 0
   m_Name: PlayerSwarm
   m_TagString: Untagged
@@ -66,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 150, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -80,7 +81,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -114,7 +115,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 400
+  far clip plane: 600
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -122,7 +123,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_HDR: 0
@@ -225,6 +226,75 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
+--- !u!82 &8240280
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f29960112d19cf546bd586378d10f910, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: .200000003
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 150
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 100
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!92 &9200000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -260,15 +330,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f6bd091c621564f80cd74471a89005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
   beePrefab: {fileID: 11400000, guid: e8588e5b7d488c34ea607f319a3fa237, type: 2}
+  playerSwarm: {fileID: 0}
+  swarmPrefab: {fileID: 0}
   size: 5
   speed: 40
-  strafeSpeed: 10
-  turnSpeed: 300
-  turnSpeedVert: 200
   beeWander: 4
   minWander: 2
+  team: 0
 --- !u!114 &11495348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,6 +350,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: 0
+  swarmPrefab: {fileID: 11426324, guid: 0aede4bae464f4d45b3e12f99f9533fb, type: 2}
+  speed: 40
+  strafeSpeed: 30
+  turnSpeed: 300
+  turnSpeedVert: 150
+  chargeDelay: .100000001
+  projectileSpeed: 1.5
+  projectileDistance: 100
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -298,8 +375,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -18,8 +18,14 @@ public class TargetCounter : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		time -= Time.deltaTime;
-		myText.text = string.Format ("{0} Targets Left", targets)
-			+ "\n" + string.Format ("{0:0}:{1:00}", Mathf.Floor (time / 60), time % 60);
+		if (targets > 0) {
+			time -= Time.deltaTime;
+			myText.text = string.Format ("{0} Targets Left", targets)
+				+ "\n" + string.Format ("{0:0}:{1:00}", Mathf.Floor (time / 60), time % 60);
+		} else {
+			myText.text = "Only BEES Left!"
+				+ "\n" + string.Format ("{0:0}:{1:00}", Mathf.Floor (time / 60), time % 60);
+			GetComponentInParent<Animator> ().SetTrigger ("Win");
+		}
 	}
 }

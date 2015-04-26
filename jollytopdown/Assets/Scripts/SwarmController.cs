@@ -17,7 +17,7 @@ public class SwarmController : MonoBehaviour
 	List<BeeController> bees = new List<BeeController> ();
 
 	PlayerController player;
-	
+	AudioSource buzzing;
 	SphereCollider collider;
 	
 	// Use this for initialization
@@ -25,6 +25,8 @@ public class SwarmController : MonoBehaviour
 	{
 		player = GetComponent<PlayerController> ();
 		collider = GetComponent<SphereCollider> ();
+		buzzing = GetComponent<AudioSource> ();
+		//buzzing.time = Random.Range (1, 10);
 		for (int i = 0; i < size; i++) {
 			var other = GameObject.Instantiate (beePrefab.gameObject, transform.position + Random.insideUnitSphere, Quaternion.identity) as GameObject;
 			var bee = other.GetComponent<BeeController> ();
@@ -60,6 +62,7 @@ public class SwarmController : MonoBehaviour
 	void updateBees ()
 	{
 		float lerp = 0;
+		buzzing.volume = Mathf.Min (.3f, ((float)size) / 100f);
 		if (GetComponent<Rigidbody> ().velocity != Vector3.zero)
 			lerp = speed / GetComponent<Rigidbody> ().velocity.magnitude;
 		foreach (var bee in bees) {
